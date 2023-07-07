@@ -4,6 +4,8 @@ import './ImageLinkForm.css';
 import PropTypes from 'prop-types';
 import detectImage from './../../AI_API/clarifiAPI.js';
 import DetectionResults from './../DetectionResults/DetectionResults.jsx';
+import ImageDetection from './../ImageDetection/ImageDetection.jsx';
+
 
 
 const VITE_KEY = import.meta.env.VITE_CLARIFAI_API_KEY;
@@ -49,6 +51,7 @@ const ImageLinkForm = () => {
       </div>
     </div>
     {concepts.length > 0 && <DetectionResults concepts={concepts} />}
+    {inputValue && <ImageDetection imgUrl={inputValue} />}
     </>
   );
 };
