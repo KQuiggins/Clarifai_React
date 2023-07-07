@@ -15,6 +15,7 @@ function App() {
   const [input, setInput] = useState("");
   const [imgUrl, setImgUrl] = useState("");
 
+
   const onInputChange = (event) => {
 
     setInput(event.target.value);
@@ -53,7 +54,6 @@ function App() {
         <Navigation />
         <Logo />
         {imgUrl && <ImageDetection imgUrl={imgUrl} />}
-
         <ImageLinkForm
           inputValue={input}
           onInputChange={onInputChange}

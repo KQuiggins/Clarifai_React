@@ -14,14 +14,16 @@ const VITE_KEY = import.meta.env.VITE_CLARIFAI_API_KEY;
 const ImageLinkForm = () => {
   const [inputValue, setInputValue] = useState("");
   const [concepts, setConcepts] = useState([]);
+  const [isDetecting, setIsDetecting] = useState(false);
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
     try {
       const result = await detectImage(inputValue, VITE_KEY);
-      console.log(result);
+
       setConcepts(result);
+      setIsDetecting(true);
       // Handle the result here or update the component's state with the result
     } catch (error) {
       console.log("Error detecting image:", error);
@@ -40,8 +42,11 @@ const ImageLinkForm = () => {
             className="f4 mr2 pa2 mb3 w-70-l"
             placeholder="Enter an image URL"
             value={inputValue}
+            onChange={(e) => {
+              setInputValue(e.target.value);
+              setIsDetecting(false); // Reset isDetecting to false when the input changes
+            }}
 
-            onChange={(e) => setInputValue(e.target.value)}
 
 
           />
@@ -51,7 +56,7 @@ const ImageLinkForm = () => {
       </div>
     </div>
     {concepts.length > 0 && <DetectionResults concepts={concepts} />}
-    {inputValue && <ImageDetection imgUrl={inputValue} />}
+    {isDetecting && inputValue && <ImageDetection imgUrl={inputValue} />}
     </>
   );
 };
