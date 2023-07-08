@@ -41,7 +41,7 @@ const detectImage = async (imageUrl, apiKey) => {
         };
       });
 
-
+      console.log("Concepts:", concepts);
       return concepts;
     } catch (error) {
       console.log("error", error);

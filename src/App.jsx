@@ -8,16 +8,18 @@ import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 import particleOptions from "./Particles/particleOptions.js";
 import detectImage from "./AI_API/clarifiAPI.js";
+import SignIn from './components/SignIn/SignInForm.jsx';
+
 
 const VITE_KEY = import.meta.env.VITE_CLARIFAI_API_KEY;
 
 function App() {
   const [input, setInput] = useState("");
   const [imgUrl, setImgUrl] = useState("");
+  const [route, setRoute] = useState("signin");
 
 
   const onInputChange = (event) => {
-
     setInput(event.target.value);
   };
 
@@ -32,12 +34,16 @@ function App() {
     }
   };
 
+  const onRouteChange = (route) => {
+    //e.preventDefault();
+    setRoute(route);
+  };
+
   const particlesInit = useCallback(async (engine) => {
     await loadFull(engine);
   }, []);
 
   const particlesLoaded = useCallback(async (container) => {
-
     return Promise.resolve();
   }, []);
 
@@ -51,14 +57,20 @@ function App() {
           loaded={particlesLoaded}
           options={particleOptions}
         />
-        <Navigation />
-        <Logo />
-        {imgUrl && <ImageDetection imgUrl={imgUrl} />}
-        <ImageLinkForm
-          inputValue={input}
-          onInputChange={onInputChange}
-          onSubmit={onSubmit}
-        />
+        <Navigation onRouteChange={onRouteChange}/>
+        {route === "signin" ? (
+          <SignIn onRouteChange={onRouteChange} />
+        ) : (
+          <>
+            <Logo />
+            {imgUrl && <ImageDetection imgUrl={imgUrl} />}
+            <ImageLinkForm
+              inputValue={input}
+              onInputChange={onInputChange}
+              onSubmit={onSubmit}
+            />
+          </>
+        )}
       </div>
 
     </>
