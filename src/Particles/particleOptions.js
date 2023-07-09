@@ -9,7 +9,7 @@ const particleOptions = {
         stop: "#00D4FF",
       },
     },
-    fpsLimit: 30,
+    fpsLimit: 120,
     interactivity: {
       events: {
         onClick: {
@@ -53,7 +53,7 @@ const particleOptions = {
           default: "bounce",
         },
         random: false,
-        speed: 5,
+        speed: 3,
         straight: false,
       },
       number: {

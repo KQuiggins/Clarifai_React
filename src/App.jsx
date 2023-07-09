@@ -8,8 +8,8 @@ import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 import particleOptions from "./Particles/particleOptions.js";
 import detectImage from "./AI_API/clarifiAPI.js";
-import SignIn from './components/SignIn/SignInForm.jsx';
-
+import SignIn from "./components/SignIn/SignInForm.jsx";
+import Register from "./components/Register/RegisterForm.jsx";
 
 const VITE_KEY = import.meta.env.VITE_CLARIFAI_API_KEY;
 
@@ -17,7 +17,7 @@ function App() {
   const [input, setInput] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [route, setRoute] = useState("signin");
-
+  const [isSignedIn, setIsSignedIn] = useState(false);
 
   const onInputChange = (event) => {
     setInput(event.target.value);
@@ -28,16 +28,23 @@ function App() {
       setImgUrl(imageUrl);
       console.log("Image URL:", imageUrl);
       await detectImage(imageUrl, VITE_KEY);
-
     } catch (error) {
       console.log("Error detecting image:", error);
     }
   };
 
   const onRouteChange = (route) => {
-    //e.preventDefault();
-    setRoute(route);
+    if (route === "signout") {
+      setIsSignedIn(false);
+      setRoute("signin");
+    } else if (route === "home") {
+      setIsSignedIn(true);
+      setRoute("home");
+    } else {
+      setRoute(route);
+    }
   };
+
 
   const particlesInit = useCallback(async (engine) => {
     await loadFull(engine);
@@ -57,10 +64,8 @@ function App() {
           loaded={particlesLoaded}
           options={particleOptions}
         />
-        <Navigation onRouteChange={onRouteChange}/>
-        {route === "signin" ? (
-          <SignIn onRouteChange={onRouteChange} />
-        ) : (
+        <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange} />
+        {route === "home" ? (
           <>
             <Logo />
             {imgUrl && <ImageDetection imgUrl={imgUrl} />}
@@ -70,9 +75,12 @@ function App() {
               onSubmit={onSubmit}
             />
           </>
+        ) : route === "signin" ? (
+          <SignIn onRouteChange={onRouteChange} />
+        ) : (
+          <Register onRouteChange={onRouteChange} />
         )}
       </div>
-
     </>
   );
 }
