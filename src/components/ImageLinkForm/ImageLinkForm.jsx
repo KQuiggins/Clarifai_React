@@ -1,7 +1,6 @@
 /* eslint-disable no-undef */
 import { useState } from "react";
 import './ImageLinkForm.css';
-import PropTypes from 'prop-types';
 import detectImage from './../../AI_API/clarifiAPI.js';
 import DetectionResults from './../DetectionResults/DetectionResults.jsx';
 import ImageDetection from './../ImageDetection/ImageDetection.jsx';
@@ -59,12 +58,6 @@ const ImageLinkForm = () => {
     {isDetecting && inputValue && <ImageDetection imgUrl={inputValue} />}
     </>
   );
-};
-
-ImageLinkForm.propTypes = {
-  inputValue: PropTypes.string.isRequired,
-  onInputChange: PropTypes.func.isRequired,
-
 };
 
 export default ImageLinkForm;
