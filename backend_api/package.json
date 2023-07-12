@@ -6,7 +6,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js --watch",
-    "dev": "nodemon server.js"
+    "dev": "nodemon server.js",
+    "data:import": "node seeders.js",
+    "data:destroy": "node seeders.js --destroy"
   },
   "keywords": [],
   "author": "",

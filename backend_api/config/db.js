@@ -1,22 +1,15 @@
-import { connect, Schema, model } from 'mongoose';
+import { connect } from 'mongoose';
 
 // Connect to the local MongoDB database
 const connectDB = async () => {
   try {
-    await connect('mongodb://localhost:27017/SmartBrain', { useNewUrlParser: true, useUnifiedTopology: true });
+    await connect('mongodb://127.0.0.1:27017/SmartBrain', { useNewUrlParser: true, useUnifiedTopology: true });
     console.log('Connected to the local MongoDB database!');
   } catch (err) {
     console.error(err);
   }
 }
 
-connectDB();
+export default connectDB;
 
-const userSchema = new Schema({
-  email: String,
-  password: String,
-});
 
-const User = model('User', userSchema);
-
-export default User;
