@@ -50,7 +50,7 @@ app.post("/signin", async (req, res) => {
 
 
 
-app.post("/register", async (req, res) => {
+app.post("/api/register", async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
