@@ -5,6 +5,7 @@ const RegisterForm = ({ onRouteChange }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
 
   const handleNameChange = (event) => {
     setName(event.target.value);
@@ -21,7 +22,7 @@ const RegisterForm = ({ onRouteChange }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    fetch("/api//register", {
+    fetch("/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -34,13 +35,19 @@ const RegisterForm = ({ onRouteChange }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log("Registration successful:", data);
-        // Do something with the response, e.g., redirect to home or display a success message
-        onRouteChange("home");
+        console.log("Registration response:", data);
+        if (data.error) {
+          setError(data.error);
+        } else {
+          console.log("Registration successful:", data);
+          // Do something with the response, e.g., redirect to home or display a success message
+          onRouteChange("home");
+        }
       })
       .catch((error) => {
         console.error("Error registering user:", error);
         // Handle registration error, e.g., display an error message
+        setError("An error occurred while registering the user.");
       });
   };
 
