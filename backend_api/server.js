@@ -57,18 +57,16 @@ app.post("/api/signin", async (req, res) => {
 
   try {
     const user = await User.findOne({ email: email });
-    console.log(user);
+
     if (!user) {
       return res.status(401).json({ message: "Invalid email or password" });
     }
 
-    console.log(password);
-    console.log(user.password);
 
     const isMatch = await user.matchPassword(password);
-    console.log(isMatch);
+
     if (isMatch) {
-      res.json("Success");
+      res.json(user);
     } else {
       res.status(401).json({ message: "Invalid email or password" });
     }
@@ -78,22 +76,29 @@ app.post("/api/signin", async (req, res) => {
   }
 });
 
-app.get("/profile/:id", async (req, res) => {
-  const userId = req.params.id;
+app.get("/api/profile/:id", async (req, res) => {
+  const userEmail = req.params.email;
+  console.log("User email:", userEmail);
 
   try {
-    const user = await User.findById(userId).exec();
+    const user = await User.findOne({ email: userEmail });
 
     if (!user) {
       return res.status(404).json({ error: "User not found." });
     }
 
-    res.json(user);
+    // Return the user profile data
+    res.json({
+      id: user._id,
+      name: user.name,
+      email: user.email,
+      joined: user.joined,
+    });
   } catch (err) {
     console.error(err);
     res
       .status(500)
-      .json({ error: "An error occurred while retrieving the user." });
+      .json({ error: "An error occurred while retrieving the user profile." });
   }
 });
 

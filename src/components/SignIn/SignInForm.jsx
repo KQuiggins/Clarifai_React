@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useState } from "react";
 
 
-const SignInForm = ({ onRouteChange }) => {
+const SignInForm = ({ onRouteChange, onSignInSuccess }) => {
 
   const [signInEmail, setSignInEmail] = useState('');
   const [signInPassword, setSignInPassword] = useState('');
@@ -27,8 +27,10 @@ const SignInForm = ({ onRouteChange }) => {
     })
       .then((response) => response.json())
       .then((data) => {
-        if (data === "Success") {
+        if (data) {
           onRouteChange("home");
+          onSignInSuccess(data);
+
         }
       });
   };
@@ -93,6 +95,7 @@ const SignInForm = ({ onRouteChange }) => {
 SignInForm.propTypes = {
 
   onRouteChange: PropTypes.func.isRequired,
+  onSignInSuccess: PropTypes.func.isRequired,
 
 };
 

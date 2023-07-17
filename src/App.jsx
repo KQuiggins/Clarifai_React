@@ -3,13 +3,14 @@ import ImageDetection from "./components/ImageDetection/ImageDetection";
 import Logo from "./components/Logo/Logo";
 import Navigation from "./components/Navigation/Navigation";
 import ImageLinkForm from "./components/ImageLinkForm/ImageLinkForm";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import Particles from "react-tsparticles";
 import { loadFull } from "tsparticles";
 import particleOptions from "./Particles/particleOptions.js";
 import detectImage from "./AI_API/clarifiAPI.js";
 import SignIn from "./components/SignIn/SignInForm.jsx";
 import Register from "./components/Register/RegisterForm.jsx";
+import UserProfile from "./components/Profile/UserProfile.jsx";
 
 const VITE_KEY = import.meta.env.VITE_CLARIFAI_API_KEY;
 
@@ -18,6 +19,13 @@ function App() {
   const [imgUrl, setImgUrl] = useState("");
   const [route, setRoute] = useState("signin");
   const [isSignedIn, setIsSignedIn] = useState(false);
+  const [user, setUser] = useState({});
+
+
+  const handleSignInSuccess = (user) => {
+    setUser(user);
+    console.log("User:", user);
+  };
 
   const onInputChange = (event) => {
     setInput(event.target.value);
@@ -67,6 +75,7 @@ function App() {
         <Navigation isSignedIn={isSignedIn} onRouteChange={onRouteChange} />
         {route === "home" ? (
           <>
+
             <Logo />
             {imgUrl && <ImageDetection imgUrl={imgUrl} />}
             <ImageLinkForm
@@ -76,7 +85,9 @@ function App() {
             />
           </>
         ) : route === "signin" ? (
-          <SignIn onRouteChange={onRouteChange} />
+          <SignIn onRouteChange={onRouteChange} onSignInSuccess={handleSignInSuccess} />
+        ) : route === "profile" ? (
+          <UserProfile  user={user}/>
         ) : (
           <Register onRouteChange={onRouteChange} />
         )}

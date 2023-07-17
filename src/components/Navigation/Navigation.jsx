@@ -1,15 +1,23 @@
-import "./Navigation.styles.css";
+import React from "react";
 import PropTypes from "prop-types";
 
 const Navigation = ({ onRouteChange, isSignedIn }) => {
+
+
   if (isSignedIn) {
     return (
-      <nav>
+      <nav className="flex justify-between">
         <p
           onClick={() => onRouteChange("signout")}
           className="f3 link dim no-underline pa3 pointer"
         >
           Sign Out
+        </p>
+        <p
+          onClick={() => onRouteChange("profile")}
+          className="f3 link dim no-underline pa3 pointer"
+        >
+          Profile
         </p>
       </nav>
     );
