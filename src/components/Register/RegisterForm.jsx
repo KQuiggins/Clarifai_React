@@ -41,7 +41,7 @@ const RegisterForm = ({ onRouteChange }) => {
         } else {
           console.log("Registration successful:", data);
           // Do something with the response, e.g., redirect to home or display a success message
-          onRouteChange("home");
+          onRouteChange("signin");
         }
       })
       .catch((error) => {
